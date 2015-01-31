@@ -19,8 +19,7 @@ public class Lib implements ILib {
 	EntityManager em;
 	@Transactional(readOnly=false)
 	@Override
-	public boolean addBook(BookD book, List<AuthorD> authors,
-			PublisherD publisher) {
+	public boolean addBook(BookD book, List<AuthorD> authors,PublisherD publisher) {
 		boolean res=false;
 		List<AuthorE> authorsE=listAuthorD2ListAuthorE(authors);
 		PublisherE publisherE=publisherD2PublisherE(publisher);
@@ -29,6 +28,12 @@ public class Lib implements ILib {
 		return res;
 	}
 
+	@Override
+	public boolean addBook(BookD book, AuthorD author, PublisherD publisher) {
+		List <AuthorD> tmpAuthorsList = new ArrayList<AuthorD>(1);
+		tmpAuthorsList.add(author);
+		return addBook(book, tmpAuthorsList, publisher);
+	}
 	
 	@Override
 	public List<AuthorE> getAuthorsByBook(String title) {
@@ -59,12 +64,19 @@ public class Lib implements ILib {
 	}
 
 	@Override
-	public List<AuthorE> getMostPopularAuthors5() {
+	public List<AuthorE> getMostPopularAuthors(int popularAuthorsCount) {
 		Query query = em.createQuery
 				("select a from AuthorE a join a.books b group by a.id order by count(a.id) desc ");
-		query.setMaxResults(5);
+		query.setMaxResults(popularAuthorsCount);
 		return query.getResultList();
 	}
+	
+	@Override
+	@Deprecated
+	public List<AuthorE> getMostPopularAuthors5() {
+		return getMostPopularAuthors(5);
+	}
+
 	
 	private List<AuthorE> listAuthorD2ListAuthorE(List<AuthorD> authors){
 		List<AuthorE> authorEs = new ArrayList<AuthorE>();
@@ -98,5 +110,4 @@ public class Lib implements ILib {
 		}
 		return bookE;
 	}
-
 }
