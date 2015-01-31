@@ -1,7 +1,12 @@
 package tr.books.entity;
-import java.util.*;
 
-import javax.persistence.*;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+
 @Entity
 public class PublisherE {
 	@Id 
@@ -9,6 +14,16 @@ public class PublisherE {
 	String country;
 	@OneToMany(mappedBy="publisher")
 	List<BookE> books;
+
+	public PublisherE(String name, String country) {
+		super();
+		this.name = name;
+		this.country = country;
+	}
+
+	public PublisherE() {
+		super();
+	}
 
 	public String getName() {
 		return name;
@@ -32,18 +47,4 @@ public class PublisherE {
 	public String toString() {
 		return "PublisherE [name=" + name + ", country=" + country + "]";
 	}
-
-	public PublisherE(String name, String country) {
-		super();
-		this.name = name;
-		this.country = country;
-		
-	}
-
-
-	public PublisherE() {
-		super();
-	}
-
-
 }

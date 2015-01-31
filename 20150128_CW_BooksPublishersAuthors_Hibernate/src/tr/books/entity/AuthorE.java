@@ -1,7 +1,11 @@
 package tr.books.entity;
-import java.util.*;
 
-import javax.persistence.*;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+
 
 @Entity
 public class AuthorE {

@@ -1,13 +1,18 @@
 package tr.books.DAO;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
+import javax.persistence.Query;
 
 import org.springframework.transaction.annotation.Transactional;
 
 import tr.book.in.*;
 import tr.books.entity.*;
+
 @SuppressWarnings("unchecked")
 public class Lib implements ILib {
 	@PersistenceContext(unitName="springHibernate",type=PersistenceContextType.EXTENDED)
@@ -26,7 +31,7 @@ public class Lib implements ILib {
 
 	
 	@Override
-	public List<AuthorE> getAuthosByBook(String title) {
+	public List<AuthorE> getAuthorsByBook(String title) {
 		Query query = em.createQuery
 				("select a from AuthorE a join a.books b where b.title=?1");
 		query.setParameter(1, title);
@@ -60,7 +65,8 @@ public class Lib implements ILib {
 		query.setMaxResults(5);
 		return query.getResultList();
 	}
-	public List<AuthorE> listAuthorD2ListAuthorE(List<AuthorD> authors){
+	
+	private List<AuthorE> listAuthorD2ListAuthorE(List<AuthorD> authors){
 		List<AuthorE> authorEs = new ArrayList<AuthorE>();
 		for(AuthorD author: authors){
 			AuthorE authorE=em.find(AuthorE.class, author.getId());

@@ -1,8 +1,11 @@
 package tr.book.controller;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
-import org.springframework.context.support.*;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import tr.book.in.*;
 import tr.books.DAO.*;
@@ -12,7 +15,7 @@ import tr.books.entity.*;
 public class TestLib {
 
 	public static void main(String[] args) {
-		int max =10;
+		int max = 90;
 		List<AuthorD> authors = new ArrayList<AuthorD>();
 
 		authors.add(new AuthorD(rnd(max), "AuthorName"+rnd(max), "Country"+rnd(max), (1900+rnd(max))));
@@ -34,7 +37,7 @@ public class TestLib {
 		lib.addBook(books.get(rnd(books.size()-1)), authors, publishers.get(rnd(publishers.size()-1)));
 		String title="Title"+rnd(max);
 		System.out.println("getAuthosByBook with Title: "+ title);
-		for(AuthorE author:lib.getAuthosByBook(title)){
+		for(AuthorE author:lib.getAuthorsByBook(title)){
 			System.out.println(author);	
 		}
 		
