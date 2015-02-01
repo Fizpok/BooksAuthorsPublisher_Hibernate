@@ -66,6 +66,9 @@ public class TestLib {
 		System.out.println("getAuthorsByBook with Title: \""+ bookTitle+"\"");
 		for(AuthorE author:lib.getAuthorsByBook(bookTitle)){
 			System.out.println(author);	
+			for (BookE book:author.getBooks()){
+				System.out.println("\t"+book.toString());
+			}
 		}
 		
 /*		lib.addBook(books.get(rnd(books.size()-1)), authors, publishers.get(rnd(publishers.size()-1)));
@@ -87,9 +90,12 @@ public class TestLib {
 			System.out.println(author);
 		}
 		
-		System.out.println("getMostPopularAuthors5");
+		System.out.println("Yuri's original function getMostPopularAuthors5");
 		for(AuthorE author:lib.getMostPopularAuthors5()){
 			System.out.println(author);
+			for (BookE book:author.getBooks()){
+				System.out.println("\t"+book.toString());
+			}
 		}
 		
 		System.out.println("\n===getMostPopularAuthorsN with books count===");
@@ -97,6 +103,9 @@ public class TestLib {
 		for (Entry<AuthorE, Long> entry:authorsWithBooksCount.entrySet()){
 			AuthorE tmpAuthor1 =entry.getKey(); 
 			System.out.println(tmpAuthor1.toString() +" wrote "+ entry.getValue()+" books:");
+			for (BookE book:tmpAuthor1.getBooks()){
+				System.out.println("\t"+book.toString());
+			}
 		}
 		
 		ctx.close();
