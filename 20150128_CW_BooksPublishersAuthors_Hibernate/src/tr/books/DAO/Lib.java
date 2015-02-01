@@ -1,7 +1,9 @@
 package tr.books.DAO;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -43,17 +45,31 @@ public class Lib implements ILib {
 		query.setParameter(1, title);
 		
 		return query.getResultList();
-
 	}
 
 	@Override
-	public List<BookE> getBookByAuthor(int id) {
+	public AuthorE getAuthorById(int id) {
+		return em.find(AuthorE.class, id);
+	}
+	
+	@Override
+	public List<BookE> getBooksByAuthor(int id) {
 		Query query = em.createQuery
 				("select b from BookE b join b.authors a where a.id=?1");
 		query.setParameter(1, id);
 		return query.getResultList();
 	}
 
+	@Override
+	public BookE getBookByTitle(String title) {
+		return em.find(BookE.class, title);
+	}
+
+	@Transactional(readOnly=true)
+	@Override
+	public void saveBook(BookE book) {
+		em.persist(book);
+	}
 	/* */
 
 	@Override
@@ -70,6 +86,25 @@ public class Lib implements ILib {
 				("select a from AuthorE a join a.books b group by a.id order by count(a.id) desc ");
 		query.setMaxResults(popularAuthorsCount);
 		return query.getResultList();
+	}
+	
+	@Override
+	public HashMap<AuthorE, Long> getMostPopularAuthorsN(int countOfAuthors) {
+		Query query = em.createQuery
+				("select a,count(a.id) from AuthorE a join a.books b group by a.id order by count(a.id) desc ");
+		
+		query.setMaxResults(countOfAuthors);
+		List<Object[]> queryResult;
+		queryResult = query.getResultList();
+		HashMap<AuthorE, Long> hmResult = new HashMap<AuthorE, Long>();
+		AuthorE tmpAuthor;
+		Long tmpBooksCount;
+		for (Object[] entry:queryResult){
+			tmpAuthor = (AuthorE)entry[0];
+			tmpBooksCount = (Long)entry[1];
+			hmResult.put(tmpAuthor,tmpBooksCount);
+		}
+		return hmResult;
 	}
 	
 	@Override
@@ -111,4 +146,6 @@ public class Lib implements ILib {
 		}
 		return bookE;
 	}
+
+
 }
