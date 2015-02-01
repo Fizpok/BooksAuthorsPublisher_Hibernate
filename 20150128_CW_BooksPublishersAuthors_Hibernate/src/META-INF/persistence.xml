@@ -12,6 +12,7 @@
 			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
 			<property name="hibernate.connection.username" value="root" />
 			<property name="hibernate.connection.password" value="unix11" />
+		<!-- 	<property name = "hibernate.show_sql" value = "true" /> -->
 		</properties>
 
 	</persistence-unit>
