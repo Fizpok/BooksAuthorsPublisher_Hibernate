@@ -28,6 +28,7 @@ public class Lib implements ILib {
 		return res;
 	}
 
+	@Transactional(readOnly=false)
 	@Override
 	public boolean addBook(BookD book, AuthorD author, PublisherD publisher) {
 		List <AuthorD> tmpAuthorsList = new ArrayList<AuthorD>(1);
