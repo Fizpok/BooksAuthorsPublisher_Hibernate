@@ -97,6 +97,9 @@ public class TestLib {
 		for (Entry<AuthorE, Long> entry:authorsWithBooksCount.entrySet()){
 			AuthorE tmpAuthor1 =entry.getKey(); 
 			System.out.println(tmpAuthor1.toString() +" wrote "+ entry.getValue()+" books:");
+			for (BookE book:tmpAuthor1.getBooks()){
+				System.out.println("\t"+book.toString());
+			}
 		}
 		
 		ctx.close();
